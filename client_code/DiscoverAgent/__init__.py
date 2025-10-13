@@ -23,6 +23,7 @@ from ..C_ProgressMessage import C_ProgressMessage
 from ..C_Short import C_Short
 from ..C_FeedbackForm import C_FeedbackForm
 from ..C_TrialLimitationsPopup import C_TrialLimitationsPopup
+from ..C_ActivateNotification import C_ActivateNotification
 
 
 @routing.route('agent_artists', url_keys=['artist_id'], title='Artists')
@@ -1065,21 +1066,25 @@ class DiscoverAgent(DiscoverAgentTemplate):
       if total_ratings == "10":
         self.show_milestone_alert(10)
       elif total_ratings == "15":
+        self.ask_for_notification_activation()
+      elif total_ratings == "20":
         self.ask_for_feedback()
       elif total_ratings == "25":
         self.show_milestone_alert(25)
       elif total_ratings == "35":
-        self.ask_for_feedback()
+        self.ask_for_notification_activation()
       elif total_ratings == "50":
         self.show_milestone_alert(50)
+      elif total_ratings == "55":
+        self.ask_for_notification_activation()
       elif total_ratings == "60":
         self.ask_for_feedback()
       elif total_ratings == "100":
-        self.ask_for_feedback()
+        self.ask_for_notification_activation()
       elif total_ratings == "150":
-        self.ask_for_feedback()
+        self.ask_for_notification_activation()
       elif total_ratings == "199":
-        self.ask_for_feedback()
+        self.ask_for_notification_activation()
 
     self.header.scroll_into_view(smooth=True)
 
@@ -2528,3 +2533,16 @@ class DiscoverAgent(DiscoverAgentTemplate):
       large=True,
       buttons=[]
     )
+
+  def ask_for_notification_activation(self, **event_args):
+    """Show alert to activate agent notifications if not already active"""
+    # Check if notification is already active
+    infos = json.loads(anvil.server.call('get_model_stats', self.model_id))[0]
+    
+    if not infos.get("is_notification_active", False):
+      alert(
+        content=C_ActivateNotification(self.model_id),
+        large=True,
+        buttons=[],
+        role=["progress-message", "remove-focus"]
+      )
