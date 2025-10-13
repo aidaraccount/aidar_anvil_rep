@@ -596,7 +596,42 @@ class ModelProfile(ModelProfileTemplate):
         get_open_form().refresh_models_underline()
   
   def activate_click(self, **event_args):
-    pass
+    """Toggle agent notification activation state"""
+    # Get current state
+    current_state = self.infos["is_notification_active"]
+    new_state = not current_state
+    
+    try:
+      # Call backend to update notification state
+      result = anvil.server.call('update_agent_notification', int(self.model_id_view), new_state)
+      
+      if result == 'success':
+        # Update local state
+        self.infos["is_notification_active"] = new_state
+        
+        # Update button UI
+        if new_state:
+          self.activate.role = ["call-to-action-button", "header-6"]
+          self.activate.text = "Agent Notification Active"
+          self.activate.background = "#22c55e"
+        else:
+          self.activate.role = ["call-to-action-button", "header-6"]
+          self.activate.text = "Activate Agent Notification"
+          self.activate.background = ""
+        
+        # Refresh navigation to update indicators and position
+        get_open_form().refresh_models_components()
+        
+        # Show success notification
+        Notification("",
+          title="Notification " + ("activated" if new_state else "deactivated"),
+          style="success").show()
+      
+    except Exception as e:
+      print(f"Error toggling notification: {e}")
+      Notification("",
+        title="Failed to update notification",
+        style="warning").show()
     
   def discover_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
