@@ -9,7 +9,7 @@ import anvil.server
 class Config:
 
   # --- STRIPE ENVIRONMENT (sandbox or live) ---
-  STRIPE_ENVIRONMENT: str = "live"
+  STRIPE_ENVIRONMENT: str = "sandbox"
   
   # --- 1. Stripe public keys (public keys for client-side Stripe.js) ---
   STRIPE_PUBLIC_KEYS: dict = {
