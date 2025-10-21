@@ -1063,7 +1063,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
       # -------------------------------
       # MILESTONE ALERTS & FEEDBACK
       total_ratings = sug['total_ratings']
-      if total_ratings == "10":
+      if total_ratings >= "0":
+        self.ask_for_notification_activation()
+      elif total_ratings == "10":
         self.show_milestone_alert(10)
       elif total_ratings == "15":
         self.ask_for_notification_activation()
