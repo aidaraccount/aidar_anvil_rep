@@ -273,7 +273,7 @@ components:
           name: artist_image
           properties: {background: '', border: '', display_mode: zoom_to_fill, foreground: '', height: '200', horizontal_align: center, role: artist-image, source: '', spacing_above: none, spacing_below: none, tooltip: '', vertical_align: center, visible: true}
           type: Image
-        layout_properties: {grid_position: 'KTIEJU,BINRLY'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,BINRLY'}
         name: artist_link
         properties:
           col_widths: null
@@ -286,11 +286,11 @@ components:
           name: link_watchlist_name
           properties: {icon_align: right, role: star-tile, spacing_above: none, spacing_below: none, tooltip: add to Watchlist}
           type: Link
-        layout_properties: {grid_position: 'KTIEJU,SKLDLY UOHVIF,XXOZRA'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,SKLDLY UOHVIF,XXOZRA'}
         name: flow_panel_1
         properties: {align: right}
         type: FlowPanel
-      - layout_properties: {grid_position: 'KTIEJU,SKLDLY WJGMQK,GUYSZE'}
+      - layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,SKLDLY WJGMQK,GUYSZE'}
         name: Artist_Name_Details
         properties: {spacing: small, spacing_below: none, vertical_align: top}
         type: FlowPanel
@@ -307,24 +307,24 @@ components:
           name: birthday
           properties: {font_size: null, role: null, spacing_above: none, spacing_below: none}
           type: Label
-        layout_properties: {grid_position: 'KTIEJU,SKLDLY FYHMZB,OCVTSI'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,SKLDLY FYHMZB,OCVTSI'}
         name: Artist_Details
         properties: {role: description-tile-bio-text, spacing_above: none, spacing_below: small, vertical_align: bottom}
         type: FlowPanel
-      - layout_properties: {grid_position: 'KTIEJU,SKLDLY TKGZMO,RAKEZT'}
+      - layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,SKLDLY TKGZMO,RAKEZT'}
         name: bio_text
         properties: {align: left, format: restricted_html, role: description-bio, spacing_above: none, spacing_below: none}
         type: RichText
       - event_bindings: {click: bio_click}
-        layout_properties: {grid_position: 'KTIEJU,SKLDLY EGCWKC,HLYSEA'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,SKLDLY EGCWKC,HLYSEA'}
         name: bio
         properties: {font_size: null, foreground: '', icon: 'fa:arrow-right', icon_align: right, role: description-bio-link, spacing_above: none, spacing_below: none, text: Show more, tooltip: null}
         type: Link
-      - layout_properties: {grid_position: 'KTIEJU,SKLDLY SBXREV,OFPSAE'}
+      - layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,SKLDLY SBXREV,OFPSAE'}
         name: flow_panel_genre_tile
         properties: {align: left, role: music-genre-tile, spacing_above: none, spacing_below: none}
         type: FlowPanel
-      - layout_properties: {grid_position: 'KTIEJU,SKLDLY KHSZYQ,HNDHLG'}
+      - layout_properties: {grid_position: 'PCOCXN,NHYZFV KTIEJU,SKLDLY KHSZYQ,HNDHLG'}
         name: flow_panel_social_media_tile
         properties: {role: music-icons-tile, spacing_above: none, spacing_below: none}
         type: FlowPanel
@@ -336,7 +336,7 @@ components:
           name: KPI_1_label
           properties: {role: sub_title-regular-tile, spacing_above: none, spacing_below: none, text: Spotify Follower}
           type: Label
-        layout_properties: {grid_position: 'QJNNIK,ABDFHZ'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV QJNNIK,ABDFHZ'}
         name: linear_panel_6_copy
         properties:
           role: grid-light
@@ -353,7 +353,7 @@ components:
           name: KPI_2_label
           properties: {role: sub_title-regular-tile, spacing_above: none, spacing_below: none, text: Spotify mtl. Listeners}
           type: Label
-        layout_properties: {grid_position: 'QJNNIK,FBYDQY'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV QJNNIK,FBYDQY'}
         name: linear_panel_6_copy_copy
         properties: {role: grid-light, spacing_above: small, spacing_below: none}
         type: LinearPanel
@@ -365,10 +365,14 @@ components:
           name: KPI_3_label
           properties: {role: sub_title-regular-tile, spacing_above: none, spacing_below: none, text: TikTok Follower}
           type: Label
-        layout_properties: {grid_position: 'QJNNIK,XSLXKQ'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV QJNNIK,XSLXKQ'}
         name: linear_panel_6_copy_copy_copy
         properties: {role: grid-light, spacing_above: small, spacing_below: none}
         type: LinearPanel
+      - layout_properties: {grid_position: 'PCOCXN,LQNYCM'}
+        name: label_14
+        properties: {}
+        type: Label
       - components:
         - data_bindings:
           - {code: '[''cap-play-pause'', ''cap-play-spotify-button-big1'', ''play-spotify-button-big'']', property: role, writeback: false}
@@ -399,7 +403,7 @@ components:
             tooltip: auto play
             visible: true
           type: Button
-        layout_properties: {grid_position: 'QJNNIK,NMEONP'}
+        layout_properties: {grid_position: 'PCOCXN,NHYZFV QJNNIK,NMEONP'}
         name: flow_panel_5
         properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none, vertical_align: full}
         type: FlowPanel
