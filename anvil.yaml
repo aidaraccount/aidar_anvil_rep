@@ -102,7 +102,7 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/tables.yml
-- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: true, remember_me_days: 365, require_secure_passwords: true, use_email: true, use_token: false}
+- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: true, remember_me_days: 365, require_secure_passwords: false, use_email: true, use_token: false}
   server_config:
     email_content:
       confirm_address: {html: '<h2>Welcome to AIDAR,</h2><p>your AI-Agent for Artist Scouting.</p><p><br></p><p>Please click the following link to confirm that this is your account: {{confirm_link}}</p><p><br></p><p>If we can help you with anything, please reach out to us: team@aidar.ai</p><p><br></p><p>Thanks,</p><p>Your AIDAR team</p>'}
