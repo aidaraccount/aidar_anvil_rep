@@ -1,4 +1,3 @@
-# Test Comment v3
 import stripe.checkout
 import anvil.server
 import anvil.users
@@ -14,7 +13,7 @@ from .Home import Home
 
 user = anvil.users.get_user()
 if user:
-  routing.launch()
+    routing.launch()
 else:
-  routing.launch()
-  open_form('MainOut')
+    routing.launch()
+    open_form("MainOut")
