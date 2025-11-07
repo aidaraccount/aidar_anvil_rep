@@ -1,3 +1,4 @@
+import anvil.email
 """
 # --- 1. SERVER CONFIGURATION MODULE ---
 # Contains configuration values for server-side code.

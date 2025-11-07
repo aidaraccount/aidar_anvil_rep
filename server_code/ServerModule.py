@@ -1,3 +1,4 @@
+import anvil.email
 import anvil.stripe
 import anvil.users
 import anvil.tables as tables
