@@ -24,27 +24,40 @@ class MainOut_Register(MainOut_RegisterTemplate):
 
     # Any code you write here will run before the form opens.    
     # check for key in url
-    if anvil.js.window.location.hash.lstrip('#').split('?')[1][12:] != 'None':
-      # save license_key for later usage
-      self.license_key = anvil.js.window.location.hash.lstrip('#').split('?')[1][12:]
-      
-      # add the subscribing company name to the header      
-      self.customer = json.loads(anvil.server.call('check_customer_license_key', self.license_key))
-      print(self.customer[0])
-      if self.customer is not None:
-        self.customer_id = self.customer[0]['customer_id']
-        self.customer_name = self.customer[0]['name']
-        self.company_pre_label.visible = True
-        self.company_label.visible = True
-        self.login_company.visible = False
-        self.company_label.text = f"{self.customer_name}"
+    url_hash = anvil.js.window.location.hash.lstrip('#')
+    if '?' in url_hash and url_hash.split('?')[1].startswith('license_key='):
+      license_key_part = url_hash.split('?')[1]
+      if len(license_key_part) > 12:  # Ensure we have enough characters after 'license_key='
+        license_key = license_key_part[12:]
+        if license_key != 'None':
+          # save license_key for later usage
+          self.license_key = license_key
+          
+          # add the subscribing company name to the header      
+          self.customer = json.loads(anvil.server.call('check_customer_license_key', self.license_key))
+          print(self.customer[0])
+          if self.customer is not None:
+            self.customer_id = self.customer[0]['customer_id']
+            self.customer_name = self.customer[0]['name']
+            self.company_pre_label.visible = True
+            self.company_label.visible = True
+            self.login_company.visible = False
+            self.company_label.text = f"{self.customer_name}"
+          else:
+            self.customer_id = None
+            self.customer_name = None
+        else:
+          self.customer_id = None
+          self.customer_name = None
       else:
         self.customer_id = None
         self.customer_name = None
-    
     else:
       self.customer_id = None
       self.customer_name = None
+    
+    # Set default visibility for company fields
+    if not hasattr(self, 'customer_id') or self.customer_id is None:
       self.company_pre_label.visible = False
       self.company_label.visible = False
     

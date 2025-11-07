@@ -27,8 +27,17 @@ class MainOut(MainOutTemplate):
         
     # Any code you write here will run before the form opens.
     # check for register page url
-    if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'register':
-      self.link_register_click(anvil.js.window.location.hash.lstrip('#').split('?')[1][12:])
+    url_hash = anvil.js.window.location.hash.lstrip('#')
+    if url_hash.split('?')[0] == 'register':
+      if '?' in url_hash and url_hash.split('?')[1].startswith('license_key='):
+        license_key_part = url_hash.split('?')[1]
+        if len(license_key_part) > 12:
+          license_key = license_key_part[12:]
+          self.link_register_click(license_key)
+        else:
+          self.link_register_click('None')
+      else:
+        self.link_register_click('None')
     
 
   def button_login_click(self, **event_args):
